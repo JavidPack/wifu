@@ -37,14 +37,24 @@ void Listen::process_syn(Context* c, QueueProcessor<Event*>* q, NetworkReceivePa
     Socket* listening_socket = e->get_socket();
     TCPPacket* packet = (TCPPacket*) e->get_packet();
 
+AddressPort* localNew = new AddressPort(*listening_socket->get_local_address_port());
+AddressPort* remoteNew = new AddressPort(*packet->get_source_address_port());
+
     // TODO: we are reusing the same local address/port (not calling new)
     // This may be okay...but I don't want to think about it now
-    Socket* new_socket = new Socket(listening_socket->get_domain(),
+    Socket* new_socket = new Socket(listening_socket->get_second_socket_id(),
+		listening_socket->get_domain(),
             listening_socket->get_type(),
             listening_socket->get_protocol(),
-            listening_socket->get_local_address_port(),
-            packet->get_source_address_port());
+		localNew, remoteNew);
+       //     listening_socket->get_local_address_port(),
+       //     packet->get_source_address_port());
 
+
+printf(".............in listen2 %u\n", listening_socket->get_second_socket_id());
+printf(".............in listen1 %u\n", listening_socket->get_socket_id());
+
+printf("&&&& - I am fd:%u\n",listening_socket->get_socket_id());
 
     cmc->set_accept_socket(listening_socket);
     Event* new_connection = new ConnectionInitiatedEvent(listening_socket, new_socket, cmc->get_listen_event());

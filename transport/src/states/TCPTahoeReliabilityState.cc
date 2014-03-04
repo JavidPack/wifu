@@ -25,10 +25,12 @@ void TCPTahoeReliabilityState::state_send_packet(Context* c, QueueProcessor<Even
 }
 
 void TCPTahoeReliabilityState::state_timer_fired(Context* c, QueueProcessor<Event*>* q, TimerFiredEvent* e) {
+printf("TCPTahoeReliabilityState::state_timer_fired\n");
     TCPTahoeReliabilityContext* rc = (TCPTahoeReliabilityContext*) c;
     Socket* s = e->get_socket();
 
     if (rc->get_timeout_event() == e->get_timeout_event()) {
+printf("(rc->get_timeout_event() == e->get_timeout_event()\n");
         rc->set_timeout_event(0);
         rc->set_rto(rc->get_rto() * 2);
         resend_data(c, q, s, TIMEOUT);
@@ -85,10 +87,13 @@ void TCPTahoeReliabilityState::create_and_dispatch_ack(Context* c, QueueProcesso
 }
 
 void TCPTahoeReliabilityState::start_timer(Context* c, Socket* s) {
+printf("TCPTahoeReliabilityState::start_timer\n");
+printf("@@@ - I am fd:%u\n",s->get_socket_id());
     TCPTahoeReliabilityContext* rc = (TCPTahoeReliabilityContext*) c;
         
     // only start the timer if it is not already running
     if (!rc->get_timeout_event()) {
+printf("if (!rc->get_timeout_event())\n");
         double seconds;
         long int nanoseconds = modf(rc->get_rto(), &seconds) * NANOSECONDS_IN_SECONDS;
         TimeoutEvent* timer = new TimeoutEvent(s, seconds, nanoseconds);
@@ -103,9 +108,18 @@ void TCPTahoeReliabilityState::reset_timer(Context* c, Socket* s) {
 }
 
 void TCPTahoeReliabilityState::cancel_timer(Context* c, Socket* s) {
+	printf("TCPTahoeReliabilityState::cancel_timer\n");
+printf("@@@ - I am fd:%u\n",s->get_socket_id());
+
     TCPTahoeReliabilityContext* rc = (TCPTahoeReliabilityContext*) c;
 
-    assert(rc->get_timeout_event());
+ //   assert(rc->get_timeout_event());
+if (rc->get_timeout_event() == NULL){
+	printf("SomethingWrong here");
+return;
+}
+
+
     CancelTimerEvent* event = new CancelTimerEvent(rc->get_timeout_event());
     Dispatcher::instance().enqueue(event);
     rc->set_timeout_event(0);

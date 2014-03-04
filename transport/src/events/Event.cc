@@ -18,6 +18,7 @@ Socket* Event::get_socket() {
 }
 
 void Event::set_socket(Socket* socket) {
+perror("Event::set_socket(Socket* socket) {");
     assert(socket);
     socket_ = socket;
 }

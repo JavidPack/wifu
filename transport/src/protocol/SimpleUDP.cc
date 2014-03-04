@@ -44,7 +44,7 @@ void SimpleUDP::icontext_send_packet(QueueProcessor<Event*>* q, SendPacketEvent*
 }
 
 void SimpleUDP::icontext_connect(QueueProcessor<Event*>* q, ConnectEvent* e) {
-
+printf("SimpleUDP::icontext_connect\n");  /// HMM, shouldn't this do something? is this a bug?
 }
 
 void SimpleUDP::icontext_accept(QueueProcessor<Event*>* q, AcceptEvent* e) {

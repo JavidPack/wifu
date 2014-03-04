@@ -20,6 +20,7 @@ void SynReceived::state_receive_packet(Context* c, QueueProcessor<Event*>* q, Ne
     ConnectionManagerContext* cmc = (ConnectionManagerContext*) c;
     TCPPacket* packet = (TCPPacket*) e->get_packet();
     Socket* s = e->get_socket();
+printf("&&&& synreceivedrecpacket- I am fd:%u\n",s->get_socket_id());
 
     if (packet->is_tcp_ack()) {
         ConnectionEstablishedEvent* event = new ConnectionEstablishedEvent(cmc->get_accept_socket(), s);

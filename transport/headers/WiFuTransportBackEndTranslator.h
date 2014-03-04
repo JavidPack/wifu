@@ -58,8 +58,8 @@ public:
 private:
     WiFuTransportBackEndTranslator();
 
-    map<int, LibraryEvent*, less<int>, gc_allocator<pair<int, LibraryEvent*> > > event_map_;
-    map<int, LibraryEvent*, less<int>, gc_allocator<pair<int, LibraryEvent*> > >::iterator event_map_iterator_;
+    map<unsigned int, LibraryEvent*, less<unsigned int>, gc_allocator<pair<unsigned int, LibraryEvent*> > > event_map_; //unsigned ???
+    map<unsigned int, LibraryEvent*, less<unsigned int>, gc_allocator<pair<unsigned int, LibraryEvent*> > >::iterator event_map_iterator_;
 };
 
 #endif	/* WIFUTRANSPORTBACKENDTRANSLATOR_H */

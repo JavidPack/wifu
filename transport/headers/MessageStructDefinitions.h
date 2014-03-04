@@ -14,7 +14,7 @@
 struct GenericMessage {
     u_int32_t message_type;
     u_int32_t length;
-    int fd;
+    u_int32_t fd;
 };
 
 struct FrontEndMessage : public GenericMessage {
@@ -55,6 +55,9 @@ struct ListenMessage : public FrontEndMessage {
 };
 
 struct AcceptMessage : public AddressMessage {
+
+u_int32_t secondfd;
+
     // Has the same parameters as Bind
 };
 

@@ -1,6 +1,27 @@
 #include "Socket.h"
 #include "defines.h"
 
+Socket::Socket(unsigned int socket, int domain,
+        int type,
+        int protocol,
+        AddressPort* local,
+        AddressPort* remote) :
+    Observable(),
+    socket_(socket/*SocketManager::instance().get()*/),
+    domain_(domain),
+    type_(type),
+    protocol_(protocol),
+    local_(local),
+    remote_(remote),
+    is_passive_(false) {
+
+printf(".............medium socket called %u\n", socket);
+
+    send_buffer_.reserve(TCP_SOCKET_MAX_BUFFER_SIZE);
+    receive_buffer_.reserve(TCP_SOCKET_MAX_BUFFER_SIZE);
+    resend_buffer_.reserve(TCP_SOCKET_MAX_BUFFER_SIZE);
+}
+
 Socket::Socket(int domain,
         int type,
         int protocol,
@@ -15,6 +36,8 @@ Socket::Socket(int domain,
     remote_(remote),
     is_passive_(false) {
 
+printf(".............old socket called\n");
+
     send_buffer_.reserve(TCP_SOCKET_MAX_BUFFER_SIZE);
     receive_buffer_.reserve(TCP_SOCKET_MAX_BUFFER_SIZE);
     resend_buffer_.reserve(TCP_SOCKET_MAX_BUFFER_SIZE);
@@ -26,8 +49,18 @@ Socket::~Socket() {
     PortManagerFactory::instance().create().remove(remote_->get_port());
 }
 
-int Socket::get_socket_id() const {
+unsigned int Socket::get_socket_id() const {
+//printf("get_socket_id() %u, %i \n", socket_, socket_);
+
     return socket_;
+}
+
+unsigned int Socket::get_second_socket_id() {
+    return second_socket_;
+}
+
+void Socket::set_second_socket_id(unsigned int second_socket) {
+    second_socket_ = second_socket;
 }
 
 int Socket::get_domain() const {
@@ -60,6 +93,7 @@ AddressPort* Socket::get_remote_address_port() {
 }
 
 void Socket::set_local_address_port(AddressPort* local) {
+printf("Socket::set_local_address_port on socket_ %u\n", socket_);
     if (local_) {
         delete local_;
     }
@@ -68,6 +102,7 @@ void Socket::set_local_address_port(AddressPort* local) {
 }
 
 void Socket::set_remote_address_port(AddressPort* remote) {
+printf("Socket::set_remote_address_port on socket_ %u\n", socket_);
     if (remote_) {
         delete remote_;
     }

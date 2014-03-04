@@ -9,6 +9,7 @@ BufferEvent::~BufferEvent() {
 }
 
 unsigned char* BufferEvent::get_buffer() {
+printf("getbuffercalled in bufferevent\n");
     return buffer_;
 }
 

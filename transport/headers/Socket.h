@@ -28,11 +28,18 @@ public:
     /**
      * Creates a Socket object.
      */
+    Socket(unsigned int socket, int domain,
+            int type,
+            int protocol,
+            AddressPort* local = new AddressPort("0.0.0.0", PortManagerFactory::instance().create().get()),
+            AddressPort* remote = AddressPort::default_address_port());
+
     Socket(int domain,
             int type,
             int protocol,
             AddressPort* local = new AddressPort("0.0.0.0", PortManagerFactory::instance().create().get()),
             AddressPort* remote = AddressPort::default_address_port());
+
 
     /**
      * Cleans up this Socket object.
@@ -42,7 +49,11 @@ public:
     /**
      * @return The int which represents this Socket.
      */
-    int get_socket_id() const;
+    unsigned int get_socket_id() const;
+
+    unsigned int get_second_socket_id();
+
+    void set_second_socket_id(unsigned int second_socket);
 
     int get_domain() const;
 
@@ -84,7 +95,8 @@ private:
     int domain_;
     int type_;
     int protocol_;
-    int socket_;
+    unsigned int socket_;
+    unsigned int second_socket_;
 
     bool is_passive_;
 

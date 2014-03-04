@@ -37,6 +37,7 @@ void ResponseEvent::set_errno(int error) {
 }
 
 struct sockaddr_un* ResponseEvent::get_destination() {
+printf("get_destination in responceevent\n");
     return &destination_;
 }
 
@@ -45,9 +46,11 @@ void ResponseEvent::set_destination(struct sockaddr_un* destination) {
 }
 
 struct GenericResponseMessage* ResponseEvent::get_response() {
+printf("get_reponse in responceevent\n");
     return response_;
 }
 
 void ResponseEvent::execute(IModule* m) {
+printf("execute in responceevent\n");
     m->imodule_library_response(this);
 }

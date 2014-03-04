@@ -24,6 +24,7 @@ bool ProtocolManager::is_supported(int domain, int type, int protocol) {
 	// TODO: This means that the class will need to map the
 	// TODO: three-tuple to a protocol
 	mutex_.wait();
+perror("hahahahah");
 	bool value = contains(protocol);
 	mutex_.post();
 	return value;
@@ -31,6 +32,8 @@ bool ProtocolManager::is_supported(int domain, int type, int protocol) {
 
 void ProtocolManager::support(int protocol) {
 	mutex_.wait();
+	printf("ProtocolManager::support %i\n",protocol);
+	perror("!!!!!!!!!!!!!!!!!!!!!!");
 	insert(protocol);
 	mutex_.post();
 }

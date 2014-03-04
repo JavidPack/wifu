@@ -93,6 +93,7 @@ bool TCPPacket::is_tcp_rst() const {
 }
 
 void TCPPacket::set_tcp_rst(bool rst) {
+printf("~~~TCPPacket::set_tcp_rst\n");
     tcp_->rst = rst;
 }
 

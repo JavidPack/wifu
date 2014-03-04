@@ -27,6 +27,13 @@
 #include "GarbageCollector.h"
 #include "Utils.h"
 
+#include <linux/netlink.h>
+
+
+
+
+#define MAX_PAYLOAD 1024 /* maximum payload size*/
+
 #define MESSAGE_SIZE 2000
 
 using namespace std;
@@ -70,6 +77,7 @@ public:
 
     virtual ~LocalSocketReceiver();
     int get_socket();
+    	int prime_wedge();
 
     gcstring & get_file();
 
@@ -77,6 +85,10 @@ public:
 
     struct sockaddr_un* get_address();
 
+ssize_t send_to_wedge(void* buffer, size_t length);
+
+	struct sockaddr_nl local_sockaddress; // sockaddr_nl for this process (source)
+	struct sockaddr_nl kernel_sockaddress; // sockaddr_nl for the kernel (destination)
 
 
 private:

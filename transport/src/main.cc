@@ -250,6 +250,9 @@ void register_protocols() {
     gcstring dack = "dack";
     gcstring apdack = "ap+dack";
 
+register_tcp_tahoe();
+register_udp();
+
     if (optionparser.present(tahoe)) {
         register_tcp_tahoe();
     }

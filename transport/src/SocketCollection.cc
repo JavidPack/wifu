@@ -19,7 +19,8 @@ SocketCollection::~SocketCollection() {
 }
 
 Socket* SocketCollection::get_by_id(int id) {
-    assert(id >= 0);
+    //assert((unsigned int)id >= 0);
+//assert(id >= 0);
     SocketCollectionGetByIdVisitor visitor(id);
     accept(&visitor);
     return visitor.get_socket();

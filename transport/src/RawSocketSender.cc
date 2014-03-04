@@ -5,7 +5,26 @@ RawSocketSender::RawSocketSender() {
     set_header_include();
 }
 
+size_t showbytez(const void *object, size_t size)
+{
+	size_t oldsize = size;
+   const unsigned char *byte;
+   for ( byte = (const unsigned char *)object; size--; ++byte )
+   {
+      printf("%02X", *byte);
+   }
+   putchar('\n');
+	return oldsize;
+}
+
 ssize_t RawSocketSender::send(WiFuPacket* p) {
+	printf("=========================RawSocketSender::send called\n");
+
+
+printf("socket_ %i\n", socket_);
+showbytez(p->get_payload(), p->get_ip_tot_length());
+printf("p->get_ip_tot_length() %i\n", p->get_ip_tot_length());
+
     int ret = sendto(socket_,
             p->get_payload(),
             p->get_ip_tot_length(),
@@ -21,6 +40,7 @@ ssize_t RawSocketSender::send(WiFuPacket* p) {
 }
 
 void RawSocketSender::create_socket() {
+	printf("RawSocketSender::create_socket() called");
     socket_ = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);
     if (socket_ < 0) {
         perror("NetworkInterface cannot create raw socket");

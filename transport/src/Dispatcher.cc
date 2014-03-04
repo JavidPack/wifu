@@ -11,6 +11,7 @@ Dispatcher::~Dispatcher() {
 }
 
 void Dispatcher::map_event(event_name name, EventQPPointer q) {
+//printf("Dispatcher::map_event\n");
     mutex_.wait();
     if (map_.find(name) == map_.end()) {
         map_[name] = new vector<EventQPPointer, gc_allocator<EventQPPointer> >;
@@ -36,6 +37,7 @@ void Dispatcher::reset() {
 }
 
 void Dispatcher::process(Event* e) {
+//printf("Dispatcher::process\n");
     mutex_.wait();
     assert(e);
     itr_ = map_.find(type_name(*e));

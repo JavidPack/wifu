@@ -29,6 +29,7 @@ public:
     }
 
     virtual N get() {
+	//perror("Rand called...should it.?");
         mutex_.wait();
         N random;
 

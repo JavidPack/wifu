@@ -35,6 +35,7 @@ void Protocol::imodule_library_socket(Event* e) {
 }
 
 void Protocol::imodule_library_bind(Event* e) {
+	printf("Protocol::imodule_library_bind(Event* e)\n");
     BindEvent* event = (BindEvent*) e;
 
     int error = 0;
@@ -44,6 +45,7 @@ void Protocol::imodule_library_bind(Event* e) {
     if (!sockets_.contains(socket)) {
         return;
     }
+printf("sockets_.contains(socket)\n");
 
     // TODO: may not need this check, it is done on the front end.
     // TODO: I'm leaving it for now, just to be safe.
@@ -56,6 +58,7 @@ void Protocol::imodule_library_bind(Event* e) {
 
         if (!v.is_bound()) {
             socket->set_local_address_port(local);
+printf(" socket->set_local_address_port(local); %u\n", local->get_port());
             icontext_bind(this, event);
             return_val = 0;
         } else {
@@ -121,10 +124,12 @@ void Protocol::imodule_library_listen(Event* e) {
 }
 
 void Protocol::imodule_library_connect(Event* e) {
+printf("Protocol::imodule_library_connect");
     ConnectEvent* event = (ConnectEvent*) e;
 
     Socket* socket = event->get_socket();
     if (!sockets_.contains(socket)) {
+printf("!sockets_.contains(socket)");
         return;
     }
 
@@ -165,14 +170,17 @@ void Protocol::imodule_library_receive(Event* e) {
 }
 
 void Protocol::imodule_library_send(Event* e) {
+printf("Protocol::imodule_library_send(Event* e) called\n");
     SendEvent* event = (SendEvent*) e;
     Socket* socket = event->get_socket();
 
     if (!sockets_.contains(socket)) {
+printf("!sockets_.contains(socket)\n");
         return;
     }
 
     if (!icontext_can_send(socket)) {
+printf("!icontext_can_send(socket)\n");
         // TODO: respond with error ?
         return;
     }
@@ -232,10 +240,11 @@ void Protocol::imodule_connection_established(Event* e) {
 }
 
 void Protocol::imodule_connection_initiated(Event* e) {
+	printf("Protocol::imodule_connection_initiated\n");
     ConnectionInitiatedEvent* event = (ConnectionInitiatedEvent*) e;
     Socket* listening_socket = event->get_socket();
     Socket* new_socket = event->get_new_socket();
-
+printf("event->get_new_socket(); called\n");
     if (new_socket->get_protocol() != protocol_) {
         return;
     }

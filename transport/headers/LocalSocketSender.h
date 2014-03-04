@@ -22,12 +22,15 @@
 #include "Semaphore.h"
 #include "defines.h"
 
+#include <linux/netlink.h>
+
 using namespace std;
 
 class LocalSocketSender {
 public:
     LocalSocketSender();
     virtual ~LocalSocketSender();
+
 
     ssize_t send_to(struct sockaddr_un* destination, void* buffer, size_t length);
 

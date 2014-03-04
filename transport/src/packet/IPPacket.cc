@@ -95,11 +95,25 @@ void IPPacket::set_ip_ttl(u_int8_t ttl) {
 }
 
 u_int8_t IPPacket::get_ip_protocol() const {
-    return ip_->protocol;
+    return ip_->protocol; // BIG PROBS HERE
 }
 
 void IPPacket::set_ip_protocol(u_int8_t protocol) {
     ip_->protocol = protocol;
+
+// BIG probs...WIFU is setting protocol as its own types....
+// Real: UDP = 17, TCP = 6
+// WIFU: SIMPLE_TCP 206 TCP_TAHOE 207 UDP 217  TCP_AP 211
+
+/*	if(protocol == SIMPLE_TCP || protocol == TCP_TAHOE || protocol == TCP_AP){
+		ip_->protocol = 6;
+	} else if(protocol == UDP){
+		ip_->protocol = 17;
+	} else {
+    		ip_->protocol = protocol;
+		printf("Likely a problem here in set_ip_protocol in IPPACKET.cc");
+	}*/
+
 }
 
 u_int16_t IPPacket::get_ip_checksum() const {

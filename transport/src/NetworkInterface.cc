@@ -17,6 +17,7 @@ void NetworkInterface::register_protocol(int protocol, PacketFactory* pf) {
 }
 
 void NetworkInterface::imodule_network_receive(WiFuPacket* p) {
+//printf("NetworkInterface::imodule_network_receive called~!\n");
     PacketLogger::instance().log(p);
     
     // TODO: figure out if the kernel does this check for us
@@ -34,13 +35,24 @@ void NetworkInterface::imodule_network_receive(WiFuPacket* p) {
     }
 
     if (!s) {
+	//printf("if (!s), No bound local socket\n");
+
+	//if (remote != NULL){
+	//	printf("remote->get_port()%u\n", remote->get_port());
+	//}
+	//if (local != NULL){
+	//	printf("local->get_port()%u\n", local->get_port());
+	//}
         // No bound local socket
         //TODO: should it really just return like this or should it throw an exception? -Scott
         return;
     }
 
+printf("NetworkInterface::imodule_network_receive - I am fd:%u\n",s->get_socket_id());
+
     Event* e = new NetworkReceivePacketEvent(s, p);
     Dispatcher::instance().enqueue(e);
+printf("NetworkInterface::imodule_network_receive finished normally~!\n");
 }
 
 void NetworkInterface::imodule_network_send(Event* e) {

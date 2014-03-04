@@ -36,7 +36,9 @@ void* listener(void* arg) {
 
             ret = recv(fd, packet->get_payload(), MTU, 0);
 
-            assert(ret == packet->get_ip_tot_length());
+            //assert(ret == packet->get_ip_tot_length());
+
+		if(ret != packet->get_ip_tot_length()){break;}
 
             callback->imodule_network_receive(packet);
         }

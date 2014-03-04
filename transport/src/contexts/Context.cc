@@ -114,6 +114,8 @@ void Context::icontext_get_socket_option(QueueProcessor<Event*>* q, GetSocketOpt
 }
 
 bool Context::icontext_can_send(Socket* s) {
+printf("Context::icontext_can_send called\n");
+printf("get_state_name() %s\n", get_state_name().c_str());
     return get_state()->state_can_send(this, s);
 }
 

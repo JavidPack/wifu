@@ -9,12 +9,16 @@ Established::~Established() {
 }
 
 void Established::state_enter(Context* c) {
+printf("Established::state_enter\n");
     ConnectionManagerContext* cmc = (ConnectionManagerContext*) c;
     ConnectEvent* event = cmc->get_connect_event();
+
+printf("&&&& Established::state_enter- I am fd:%u\n",event->get_socket()->get_socket_id());
 
     switch (cmc->get_connection_type()) {
         case ACTIVE_OPEN:
         {
+printf("case ACTIVE_OPEN\n");
             ResponseEvent* response_event = ObjectPool<ResponseEvent>::instance().get();
             response_event->set_socket(event->get_socket());
             response_event->set_message_type(event->get_message_type());
@@ -28,6 +32,7 @@ void Established::state_enter(Context* c) {
         }
         case ESTABLISHED:
         case PASSIVE_OPEN:
+printf("case ESTABLISHED, PASSIVE_OPEN\n");
         default:
             break;
     }
@@ -37,14 +42,17 @@ void Established::state_enter(Context* c) {
 }
 
 void Established::state_exit(Context* c) {
+printf("Established::state_exit\n");
 }
 
 void Established::state_receive_packet(Context* c, QueueProcessor<Event*>* q, NetworkReceivePacketEvent* e) {
+printf("Established::state_receive_packet\n");
     ConnectionManagerContext* cmc = (ConnectionManagerContext*) c;
     TCPPacket* packet = (TCPPacket*) e->get_packet();
     Socket* s = e->get_socket();
 
     if (packet->is_tcp_syn()) {
+printf("Established::state_receive_packet                packet->is_tcp_syn()\n");
         // TODO: this may be deleted after testing it without
         // ignore potential resends of three-way handshake packets
         return;
