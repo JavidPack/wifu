@@ -1,9 +1,0 @@
-[wifu-transport.1, Aug 23 19:31:24.036; Debug]: Command line arguments: ./bin/wifu-transport
-[wifu-transport.1, Aug 23 19:31:24.036; Informational]: Using standard network interface.
-[wifu-transport.1, Aug 23 19:31:24.043; Informational]: WiFuTransportBackEndTranslator Netlink setup
-[wifu-transport.1, Aug 23 19:31:24.043; Informational]: WiFuTransportBackEndTranslator Created
-[wifu-transport.1, Aug 23 19:31:24.043; Informational]: attempting priming!
-[wifu-transport.1, Aug 23 19:31:25.864; Informational]: WiFuTransportBackEndTranslator receive called~!
-[wifu-transport.1, Aug 23 19:31:25.865; Informational]: WiFuTransportBackEndTranslator receive called~!
-[wifu-transport.1, Aug 23 19:31:25.865; Informational]: WiFuTransportBackEndTranslator receive called~!
-[wifu-transport.1, Aug 23 19:31:25.866; Informational]: WiFuTransportBackEndTranslator receive called~!

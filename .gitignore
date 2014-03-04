@@ -16,3 +16,5 @@ wedge/.tmp_versions/
 wedge/.wifu_wedge.ko.cmd
 wedge/.wifu_wedge.o.cmd
 wedge/.wifu_wedge.mod.o.cmd
+transport/wifu-log.pcap
+transport/wifu-transport.log
