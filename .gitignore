@@ -6,3 +6,13 @@ build
 /*.csexe
 /output.txt
 doxygen/html
+wedge/Module.sysvers
+wedge/modules.order
+wedge/wifu_wedge.ko
+wedge/wifu_wedge.mod.c
+wedge/wifu_wedge.mod.o
+wedge/wifu_wedge.o
+wedge/.tmp_versions/
+wedge/.wifu_wedge.ko.cmd
+wedge/.wifu_wedge.o.cmd
+wedge/.wifu_wedge.mod.o.cmd

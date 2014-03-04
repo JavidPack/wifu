@@ -1,0 +1,3 @@
+This fork attempts to allow WiFu to handle all TCP/UDP traffic from all programs through the use of a kernel module. Previously, programs could be compiled specifically to utilize WiFu by including the headers in /transport/applib/, but that requires recompiling programs specifically for using WiFu, which is not always feasible or possible.
+
+The biggest change is the wedge, found in the wedge/ folder. This is a kernel module
