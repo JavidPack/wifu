@@ -1,3 +1,13 @@
 This fork attempts to allow WiFu to handle all TCP/UDP traffic from all programs through the use of a kernel module. Previously, programs could be compiled specifically to utilize WiFu by including the headers in /transport/applib/, but that requires recompiling programs specifically for using WiFu, which is not always feasible or possible.
 
-The biggest change is the wedge, found in the wedge/ folder. This is a kernel module
+The biggest change is the wedge, found in the wedge/ folder. This is a kernel module that rewrites the kernels behavior when socket() is called from a userspace program. The modified action is for WiFu to decide what to do with the socket call, whether it should create an af_inet socket through the normal kernel-space function call or whether it should create an af_wifu socket. Currently, the code will create normal sockets for all programs unless the programs name is "createsocket". This is purely for testing purposes and to allow all other programs such as web browsers to work while developing. In the future, we hope to implement a system similar to "iptables" that allows rules to be set interactively to bind and unbind specific ports, programs, and protocols to the WiFu systems. This allows for WiFu to be used for specific actions rather than all network actions, which could be useful for research purposes.
+
+The "createsocket" program is found in temptests/. As WiFu Wedge and WiFu Transport currently do not completely work together, this program is useful to determine where WiFu doesn't work yet. 
+
+This is the testing setup: Computer A is the development computer. After the Wedge is compiled, it is "insmod"ed into the kernel. Wifu transport is then started, and in doing so, WiFu Transport will "prime" WiFu Wedge thus allowing WiFu Wedge to know the pid of the WiFu Trasport process (LocalSocketReceiver::prime_wedge() handles this. Also, the Wedge sometimes refers to WiFu Transport as the "daemon")  Once this happens, createsocket can be run and it the Wedge will capture the kernel command "socket()" and give createsocket a WiFu socket. Any actions on this socket will cause WiFu Wedge to package up that command and send it to WiFu Transport through the netlink socket. (netlink is how the kernel space Wedge and the user space Transport communicate.) WiFu Transport then does whatever logic it needs to do and communicates with the Wedge through the netlink socket. If the application (in this case, createsocket) is blocking on a call, the call will finally terminate as Wedge gives a return value to the application. 
+
+Computer B is simply running pyserver.py and should act normally as it is not running the Wedge.
+
+Using WireShark is useful for seeing what packets are being transmitted between Computer A and B.
+
+Currently, I believe UDP send works, but with TCP, bind doesn't work, as I was unable to figure out the inner workings of WiFu Transport, and my time to work on the project was over.
